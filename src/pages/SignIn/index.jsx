@@ -2,6 +2,7 @@ import { Container, Form, Background } from './styles';
 
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
+import { Loading } from '../../components/Loading';
 
 import { FiMail, FiLock } from 'react-icons/fi';
 
@@ -16,14 +17,21 @@ export function SignIn() {
 
   const [password, setPassword] = useState("");
 
-  const { signIn } = useAuth();
+  const { signIn, showLoading } = useAuth();
 
   function handleSignIn() {
+
+    if(!email || !password) {
+      return alert("Preencha todos os dados!")
+    }
+
     signIn({ email, password });
   }
 
   return(
+    
     <Container>
+      {showLoading && <Loading/>}
       <Form>
 
         <h1>Rocket Notes</h1>

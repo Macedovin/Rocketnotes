@@ -8,7 +8,11 @@ function AuthProvider({ children }) {
 
   const [data, setData] = useState({});
 
+  const [showLoading, setShowLoading] = useState(false);
+
   async function signIn({ email, password }) {
+
+    setShowLoading(true);
 
     try {
 
@@ -30,6 +34,8 @@ function AuthProvider({ children }) {
         alert('Não foi possível entrar.')
       }
     }
+
+    setShowLoading(false);
   }
 
   function signOut() {
@@ -90,7 +96,9 @@ function AuthProvider({ children }) {
   },[]);
 
   return(
-    <AuthContext.Provider value={{ 
+    <AuthContext.Provider value={{
+      showLoading,
+      setShowLoading,   
       signIn, 
       signOut,
       updateProfile, 

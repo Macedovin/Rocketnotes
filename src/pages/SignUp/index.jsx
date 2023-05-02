@@ -2,6 +2,7 @@ import { Container, Form, Background } from './styles';
 
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
+import { Loading } from '../../components/Loading';
 
 import { FiMail, FiLock, FiUser } from 'react-icons/fi';
 
@@ -19,12 +20,16 @@ export function SignUp() {
 
   const [password, setPassword] = useState("");
 
+  const [showLoading, setShowLoading] = useState(false);
+
   const navigate = useNavigate();
 
   function handleSignUp() {
     if(!name || !email || !password) {
       return alert("Preencha todos os campos!");
     }
+
+    setShowLoading(true);
 
     api.post('/users', { name, email, password })
       .then(() => {
@@ -34,15 +39,18 @@ export function SignUp() {
       .catch(error => {
         if(error.response) {
           alert(error.response.data.message);
+          setShowLoading(false);
         } else {
           alert('Não foi possível cadastrar');
+          setShowLoading(false);
         }
       });
+
   }
 
   return(
     <Container>
-
+      {showLoading && <Loading />}
       <Background />
 
       <Form>
